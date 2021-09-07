@@ -1,14 +1,15 @@
 package it.unicam.C3.negozio;
 
-import java.util.ArrayList;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
+
+import it.unicam.C3.utente.Utente;
 
 
 public class Negozio {
-	private int ID;
+	private int id;
 	private String nome;
 	private String oraApertura;
 	private String oraChiusura;
@@ -16,52 +17,65 @@ public class Negozio {
 	
 	private List<Prodotto> prodotti;
 	
-	public Negozio(int ID, String nome)
+	public Negozio(int id, String nome)
 	{
-		this.ID = ID;
+		this.id = id;
 		this.nome=nome;
 		this.prodotti  = new LinkedList<>();
 	}
 	
-	public void setProdotti(List <Prodotto> prodotti)
-	{
-		this.prodotti=prodotti;
-	}
 	
-	public Negozio(int ID, String nome, String oraApertura, String oraChiusura, String classeMerceologica) {
-		this.ID = ID;
+	public String listaProdotti()
+    {
+    	String info = "[INFO] Prodotti: ";
+    	Iterator<Prodotto> iter = this.prodotti.iterator();
+
+	    while (iter.hasNext	()) {
+	    	Prodotto prodotto = iter.next();
+	    	info += "(" + prodotto.getId() + ") " + prodotto.getNome() + "-€" + prodotto.getPrezzo() + "-IVA %" + prodotto.getIvaOrdinaria()+"; ";
+		    }    	
+	    return info;
+    }	
+	
+	public Negozio(int id, String nome, String oraApertura, String oraChiusura, String classeMerceologica) {
+		this.id = id;
 		this.nome = nome;
 		this.oraApertura = oraApertura;
 		this.oraChiusura = oraChiusura;
 		this.classeMerceologica = classeMerceologica;
-		this.prodotti = new ArrayList<Prodotto>();
+		this.prodotti = new LinkedList<>();
 	}
 	
-	public void addProdotto(int ID, String nome, float prezzo)
+	public void addProdotto(int id, String nome, float prezzo)
 	{	
-		addProdotto(ID, nome, prezzo, 22);
+		addProdotto(id, nome, prezzo, 22);
 	}
 	
-	public void addProdotto(int ID, String nome, float prezzo, int iva)
+	public void addProdotto(int id, String nome, float prezzo, int iva)
 	{	
-		Prodotto prod = new Prodotto(ID, nome,prezzo, iva);
+		Prodotto prod = new Prodotto(id, nome,prezzo, iva);
 		this.prodotti.add(prod);		
 	}
+	
+	public void setProdotti(List<Prodotto> prodotti)
+	{
+		this.prodotti = prodotti;
+	}
+	
 	
 	public void addProdotto(Prodotto prod)
 	{
 		this.prodotti.add(prod);
 	}
 	
-	public Prodotto getProdotto(int ID)
-	{
-		
+	public Prodotto getProdotto(int id)
+	{		
         Iterator<Prodotto> iter
             = this.prodotti.iterator();
   
         while (iter.hasNext()) {
         	Prodotto prod = iter.next();
-            if ( prod.getID() == ID) {
+            if ( prod.getId() == id) {
                 return prod;
             }
         }
@@ -70,7 +84,7 @@ public class Negozio {
 	
 	
 	public int getID() {
-		return ID;
+		return id;
 	}
 
 	public String getNome() {
@@ -88,5 +102,6 @@ public class Negozio {
 	public String getClasseMerceologica() {
 		 return classeMerceologica; 
 	}
+
 
 }

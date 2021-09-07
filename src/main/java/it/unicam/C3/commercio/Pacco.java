@@ -9,22 +9,28 @@ public class Pacco {
 	private int idCorriere;
 	private int idNegozio;
 	private String idVendita;
+	private int idVenditaDB;
 	private StatoPacco statoPacco;
-
 	
-	public Pacco(String idVendita, int idCliente, int idNegozio)
+	
+	public Pacco(String idVendita, int idCliente, int idNegozio, int idVenditaDB)
 	{
 		this.idVendita = idVendita;
 		this.idCliente = idCliente;
 		this.idNegozio = idNegozio;
-
+		this.idVenditaDB = idVenditaDB;
 	}
 	
-	public Pacco(TipoDestinazione tipoDestinazione, String idVendita, int idNegozio) {
+	public Pacco(TipoDestinazione tipoDestinazione, String idVendita, int idNegozio, int idVenditaDB) {
 		this.tipoDestinazione=tipoDestinazione;
 		this.idVendita = idVendita;
 		this.idNegozio = idNegozio;
-
+		this.idVenditaDB = idVenditaDB;
+	}
+	
+	public int getIdVenditaDB()
+	{
+		return this.idVenditaDB;
 	}
 	
 	public void setIndirizzo(String indirizzo) {
@@ -58,6 +64,16 @@ public class Pacco {
 	public TipoDestinazione getTipoDestinazione() {
 		return this.tipoDestinazione;
 	}		
+	
+	public int getIdLocker()
+	{
+		return this.idLocker;
+	}
+	
+	public String getIndidizzo()
+	{
+		return this.indirizzo;
+	}
 
 	public void setStatoPacco(StatoPacco statoPacco) {
 		this.statoPacco=statoPacco;
@@ -79,15 +95,28 @@ public class Pacco {
 	{
 		this.idCorriere = idCorriere;
 	}
-
+	
+	public int getIdCorriere()
+	{
+		return this.idCorriere;
+	}	
+	
 	public int getIdNegozio() {
-		// DA AGGIUNGER!!!!
-		return 0;
-		
+		return this.idNegozio;
 	}
-
-	public boolean checkCorriere(int idCorriere) {
-		// TODO Auto-generated method stub
+	
+	public void setIdCella(int idCella)
+	{
+		this.idCella=idCella;
+	}
+	
+	public int getIdCella()
+	{
+		return this.idCella;
+	}
+	
+	public boolean checkCorriere (int idCorriere)
+	{
 		if (this.idCorriere== idCorriere)
 		{
 			return true;
@@ -97,24 +126,5 @@ public class Pacco {
 			return false;
 		}
 	}
-
-	public int getIdLocker() {
-		return this.idLocker;
-	}
-
-	public int getIdCella() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public void setIdCella(int idCella) {
-		this.idCella = idCella;
-	}
-
-	public int getIdCorriere() {
-		// TODO Auto-generated method stub
-		return this.idCorriere;
-	}
-	
 	
 }

@@ -1,22 +1,22 @@
 package it.unicam.C3.negozio;
 
 public class Prodotto {
-	private int ID;
+	private int id;
 	private String nome;
 	private float prezzo;
 	private int ivaOrdinaria;
 	
-	public Prodotto (int ID, String nome, float prezzo, int ivaOrdinaria)
+	public Prodotto (int id, String nome, float prezzo, int ivaOrdinaria)
 	{
-		this.ID = ID;
+		this.id = id;
 		this.nome = nome;
 		this.prezzo = prezzo;
 		this.ivaOrdinaria = ivaOrdinaria;
 	}
 	
-	public int getID()
+	public int getId()
 	{
-		return ID;
+		return id;
 	}
 	
 	public String getNome()

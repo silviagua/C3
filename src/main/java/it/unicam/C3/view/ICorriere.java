@@ -33,16 +33,15 @@ public class ICorriere {
 		System.out.println("[INPUT] Inserisci l'identificativo del corriere:");
 		int idCorriere = Integer.parseInt(reader.nextLine());
 		*/
-		
-		System.out.println("[INPUT] Inserisci ID Corriere");
-		
-		int idCorriere = Integer.parseInt(reader.nextLine());		
+		int idCorriere = ((Corriere) gUtenti.getUtenteCorrente().getUtenteCorrente()).getId();		
+		String userName = ((Corriere) gUtenti.getUtenteCorrente().getUtenteCorrente()).getUserName();
 
+		System.out.println("[INFO] CASO D'USO SCARICA_PACCHI (Corriere " + userName + ") ***");
 		
 		System.out.println("ID Corriere" + idCorriere);
 
 		System.out.println("[INPUT] Inserisci l'identificativo del locker:");
-
+		System.out.println(gLocker.listaLocker());
 		int idLocker = Integer.parseInt(reader.nextLine());		
 		
 		List<Pacco> pacchiDaConsegnare = gCommercio.getPacchiDaConsegnare(idLocker,idCorriere);

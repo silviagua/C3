@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.unicam.C3.service.DBLocker;
+import it.unicam.C3.utente.Utente;
 
 public class GestoreLocker {
 	
@@ -27,12 +29,56 @@ public class GestoreLocker {
     	lockers.add(locker);
     }
 
-	public void setLockers(List<Locker> lockers) {
-		// TODO Auto-generated method stub
-		this.lockers=lockers;
-	}
+    public Locker getLocker(int id) {
+    	Iterator<Locker> iter = this.lockers.iterator();
 
-	public String gestisciCella(int idLocker, String idVendita, int idCella, boolean occupa)
+	    while (iter.hasNext	()) {
+	    	Locker locker = iter.next();
+	        if ( locker.getIdLocker() == id) {
+	            return locker;
+	        }
+	    }
+	    return null;    	
+    }
+    
+    public int primaCellaLibera(int idLocker)
+    {
+    	Locker locker = this.getLocker(idLocker);
+    	
+    	if (locker.equals(null)) return 0;
+    	return locker.primaCellaLibera();     
+    }
+    
+    public String listaLocker()
+    {
+    	String info = "[INFO] Locker: ";
+    	Iterator<Locker> iter = this.lockers.iterator();
+
+	    while (iter.hasNext	()) {
+	    	Locker locker = iter.next();
+	    	
+	    	info += "(" + locker.getIdLocker() + ") " + locker.getNome() + "-" + locker.getIndirizzo() + "; ";
+		    }    	
+	    return info;
+    	
+    }    
+    /*
+    public String occupaCella(int idLocker, String idVendita, int idCella)
+    {
+    	Iterator<Locker> iter = this.lockers.iterator();
+
+	    while (iter.hasNext	()) {
+	    	Locker locker = iter.next();
+	        if (locker.getIdLocker() == idLocker) {
+	        	locker.occupaCella(idCella);
+	        	return locker.getCelle();
+	        }
+	    }	       	
+    	return null;
+    }
+    */
+    
+    public String gestisciCella(int idLocker, String idVendita, int idCella, boolean occupa)
     {
     	Iterator<Locker> iter = this.lockers.iterator();
 
@@ -47,6 +93,15 @@ public class GestoreLocker {
 	        	{
 	        		locker.liberaCella(idCella);
 	        	}
+	        	try
+	        	{
+	        		DBLocker dbLocker = DBLocker.getInstance();
+	        		dbLocker.updateLocker(locker);
+	        	}
+	        	catch(Exception ex)
+	        	{
+	        		System.out.println("[ERR] " + ex.getMessage());
+	        	}
 	        	
 	        	return locker.getCelle();
 	        }
@@ -54,25 +109,9 @@ public class GestoreLocker {
     	return null;
     	
     }
-
-	public int primaCellaLibera(int idLocker)
+    public void setLockers(List<Locker> lockers)
     {
-    	Locker locker = this.getLocker(idLocker);
-    	
-    	if (locker.equals(null)) return 0;
-    	return locker.primaCellaLibera();     
-    }
-	
-	public Locker getLocker(int id) {
-    	Iterator<Locker> iter = this.lockers.iterator();
-
-	    while (iter.hasNext	()) {
-	    	Locker locker = iter.next();
-	        if ( locker.getIdLocker() == id) {
-	            return locker;
-	        }
-	    }
-	    return null;    	
-    }	
-
+    	this.lockers = lockers;
+    }    
+        
 }

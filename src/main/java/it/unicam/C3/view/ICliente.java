@@ -14,11 +14,23 @@ public class ICliente {
 	private GestoreCommercio gCommercio = GestoreCommercio.getInstance();
 	private GestoreUtenti gUtenti = GestoreUtenti.getInstance();
 	private GestoreLocker gLocker= GestoreLocker.getInstance();
+	private String userName;
+	
+	public void setUserName(String userName)
+	{
+		this.userName=userName;
+	}
+	
+	public String getUserName()
+	{
+		return this.userName;
+	}
 	
 	private ICliente() {
 		this.gCommercio = GestoreCommercio.getInstance();
 		this.gUtenti = GestoreUtenti.getInstance();
 		this.gLocker = GestoreLocker.getInstance();
+		this.setUserName(((Cliente) gUtenti.getUtenteCorrente().getUtenteCorrente()).getUserName());
 	}
 	
 	public static ICliente createICliente() {
@@ -30,6 +42,7 @@ public class ICliente {
 	
 	public void ritiraPacco(Scanner reader)
 	{
+		System.out.println("[INFO] CASO D'USO RITIRA_PACCO (Cliente " + this.getUserName() + ") ***");
 		System.out.println("[INPUT] Inserisci l'id del pacco da ritirare");
 		String idVendita=reader.nextLine();
 		

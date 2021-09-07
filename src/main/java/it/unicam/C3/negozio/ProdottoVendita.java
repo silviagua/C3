@@ -14,7 +14,7 @@ public class ProdottoVendita extends Prodotto {
 		this.quantita = qta;
 	}
 	
-	public float getQuantita() {
+	public int getQuantita() {
 		return quantita;
 	}	
 

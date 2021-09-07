@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.unicam.C3.utente.Utente;
+
 
 public class GestoreNegozi {
 	private static GestoreNegozi instance;
@@ -42,6 +44,14 @@ public class GestoreNegozi {
 	    return null;    	
     }
     
+    public String listaProdotti(int idNegozio)
+    {
+    	
+    	Negozio negozio= this.getNegozio(idNegozio);
+    	return negozio.listaProdotti();
+    	
+    }    
+    
     public Prodotto getProdotto(int idNegozio, int idProdotto)
     {
     	Iterator<Negozio> iter = this.negozi.iterator();
@@ -54,12 +64,10 @@ public class GestoreNegozi {
 	    }
 	    return null;      	
     }
-
-	public void setNegozi(List<Negozio> negozi) {
-		this.negozi = negozi;
-		
-	}
     
-    
+    public void setNegozi(List <Negozio> negozi)
+    {
+    	this.negozi = negozi;
+    }
     
 }
