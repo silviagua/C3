@@ -1,23 +1,30 @@
 package it.unicam.C3.commercio;
 
 public class Pacco {
-	TipoDestinazione tipoDestinazione;
-	String indirizzo;
-	int idLocker;
-	int idCliente;
-	int idCorriere;
-	String idVendita;
-	StatoPacco statoPacco;
+	private TipoDestinazione tipoDestinazione;
+	private String indirizzo;
+	private int idLocker;
+	private int idCella;
+	private int idCliente;
+	private int idCorriere;
+	private int idNegozio;
+	private String idVendita;
+	private StatoPacco statoPacco;
+
 	
-	public Pacco(String idVendita, int idCliente)
+	public Pacco(String idVendita, int idCliente, int idNegozio)
 	{
 		this.idVendita = idVendita;
 		this.idCliente = idCliente;
+		this.idNegozio = idNegozio;
+
 	}
 	
-	public Pacco(TipoDestinazione tipoDestinazione, String idVendita) {
+	public Pacco(TipoDestinazione tipoDestinazione, String idVendita, int idNegozio) {
 		this.tipoDestinazione=tipoDestinazione;
 		this.idVendita = idVendita;
+		this.idNegozio = idNegozio;
+
 	}
 	
 	public void setIndirizzo(String indirizzo) {
@@ -71,6 +78,42 @@ public class Pacco {
 	public void setIdCorriere(int idCorriere)
 	{
 		this.idCorriere = idCorriere;
+	}
+
+	public int getIdNegozio() {
+		// DA AGGIUNGER!!!!
+		return 0;
+		
+	}
+
+	public boolean checkCorriere(int idCorriere) {
+		// TODO Auto-generated method stub
+		if (this.idCorriere== idCorriere)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public int getIdLocker() {
+		return this.idLocker;
+	}
+
+	public int getIdCella() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void setIdCella(int idCella) {
+		this.idCella = idCella;
+	}
+
+	public int getIdCorriere() {
+		// TODO Auto-generated method stub
+		return this.idCorriere;
 	}
 	
 	

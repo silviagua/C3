@@ -88,5 +88,10 @@ public class Vendita {
 	{
 		return this.idCliente;
 	}
+	
+	public int getIdNegozio()
+	{
+		return this.idNegozio;
+	}
 
 }

@@ -2,5 +2,9 @@ package it.unicam.C3.commercio;
 
 public enum StatoPacco {
 	creato,
-	daconsegnare;
+	daconsegnare,
+	inconsegna,
+	ritirato,
+	conlocker;
+	
 }

@@ -54,6 +54,11 @@ public class GestoreNegozi {
 	    }
 	    return null;      	
     }
+
+	public void setNegozi(List<Negozio> negozi) {
+		this.negozi = negozi;
+		
+	}
     
     
     

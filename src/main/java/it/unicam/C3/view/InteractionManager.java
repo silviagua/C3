@@ -5,15 +5,14 @@ import java.util.Scanner;
 public class InteractionManager {
 
 	private ICommesso commesso;
+	private ICorriere corriere;
+	private ICliente cliente;
 	
-	/*
-	private ICameriere cameriere;
-	private IAddettoSala addettoSala;
-	private IGestore gestore;
-*/	
 	public InteractionManager() {
 	
 		commesso = ICommesso.createICommesso();
+		corriere = ICorriere.createICorriere();
+		cliente= ICliente.createICliente();
 	}
 
 	public void startSistemaC3(Scanner reader) {
@@ -24,7 +23,10 @@ public class InteractionManager {
 			System.out.println("[INPUT] Scegli 1 per elaborare una vendita");
 			System.out.println("[INPUT] Scegli 2 per generare un pacco");
 			System.out.println("[INPUT] Scegli 3 per scegliere un corriere");
-
+			System.out.println("[INPUT] Scegli 4 per consegnare il pacco al corriere");
+			System.out.println("[INPUT] Scegli 5 per scaricare i pacchi del corriere al locker");			
+			System.out.println("[INPUT] Cliente - Scegli 6 per Ritirare pacco dal locker");	
+			
 			System.out.println("[INPUT] Scegli 0 per uscire");
 			richiesta = reader.nextLine();
 			if (richiesta.equals("0"))
@@ -41,6 +43,20 @@ public class InteractionManager {
 				commesso.selezionaCorriere(reader);
 				continue;
 			}
+			if(richiesta.equals("4")) {
+				commesso.affidaPacco(reader);
+				continue;
+			}			
+			
+			if(richiesta.equals("5")) {
+				corriere.scaricaPacchi(reader);
+				continue;
+			}	
+			if(richiesta.equals("6")) {
+				cliente.ritiraPacco(reader);
+				continue;
+			}
+			
 			else {
 				continue;
 			}

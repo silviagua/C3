@@ -2,6 +2,8 @@ package it.unicam.C3.negozio;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -12,15 +14,19 @@ public class Negozio {
 	private String oraChiusura;
 	private String classeMerceologica;
 	
-	private ArrayList<Prodotto> prodotti;
+	private List<Prodotto> prodotti;
 	
 	public Negozio(int ID, String nome)
 	{
 		this.ID = ID;
 		this.nome=nome;
-		this.prodotti  = new ArrayList<Prodotto> ();
+		this.prodotti  = new LinkedList<>();
 	}
 	
+	public void setProdotti(List <Prodotto> prodotti)
+	{
+		this.prodotti=prodotti;
+	}
 	
 	public Negozio(int ID, String nome, String oraApertura, String oraChiusura, String classeMerceologica) {
 		this.ID = ID;

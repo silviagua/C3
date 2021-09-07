@@ -4,6 +4,7 @@ import it.unicam.C3.negozio.*;
 import it.unicam.C3.utente.GestoreUtenti;
 import it.unicam.C3.commercio.GestoreCommercio;
 import it.unicam.C3.commercio.Pacco;
+import it.unicam.C3.commercio.StatoPacco;
 import it.unicam.C3.commercio.TipoDestinazione;
 import it.unicam.C3.commercio.Vendita;
 
@@ -134,4 +135,49 @@ public class ICommesso {
 		gUtenti.inviaNotifica(idCorriere, "[OUTPUT] E' stato assegnato il pacco con ID " + idPacco + " per la consegna" );
 	}
 	
+	
+	//CASO D'USO AFFIDA PACCO
+		public void affidaPacco(Scanner reader)
+		{
+			System.out.println("[INPUT] Inserisci l'identificativo del negozio:");
+			int idNegozio = Integer.parseInt(reader.nextLine());
+			System.out.println("");
+			System.out.println("[OUTPUT] Pacchi da affidare: " + gCommercio.getPacchiDaNegozio(idNegozio, StatoPacco.daconsegnare) ); 
+			System.out.println("[OUTPUT] Corrieri da sccegliere: " + gUtenti.listaCorrieri());
+			boolean fineAttivita=false;
+			
+			while (!fineAttivita)
+			{
+				System.out.println("[INPUT] Inserire 0 se non ci sono pacchi da affidare a Corriere o IDPACCO");			
+			
+				String idPacco = reader.nextLine();		
+				if (idPacco.equals("0"))
+				{
+					fineAttivita= true;
+				}
+				else
+				{
+					System.out.println("[INPUT] Inserire l'ID del corriere ");
+					int idCorriere = Integer.parseInt(reader.nextLine());
+					int idCliente = gCommercio.affidaPacco(idPacco, idCorriere);
+					
+					switch(idCliente)
+					{
+						case 0:
+							System.out.println("[INPUT] Vuoi procedere con il cambio Corriere? (0=NO - 1 = SI)");
+							String confermaAttivita = reader.nextLine();
+							if (confermaAttivita.equals("1"))
+							{
+								this.selezionaCorriere(reader);
+							}
+							
+							break;
+						case -1:
+							break;
+						default:
+							gUtenti.inviaNotifica(idCliente, "Pacco " + idPacco + " affidato al corriere " + idCorriere);
+					}
+				}
+			}	
+		}	
 }

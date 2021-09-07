@@ -64,7 +64,7 @@ public class GestoreCommercio {
 		Vendita vendita = CercaVendita(idVendita);
 		if (vendita != null)
 		{
-			pacco = new Pacco(idVendita, vendita.getIdCliente());
+			pacco = new Pacco(idVendita, vendita.getIdCliente(), vendita.getIdNegozio());
 		}
 		
 		return pacco;
@@ -103,6 +103,156 @@ public class GestoreCommercio {
 	    
 		
 	}
+
+	public String getPacchiDaNegozio(int idNegozio, StatoPacco statoPacco) {
+		String strPacchi="";
+		Iterator<Pacco> iter = this.pacchi.iterator();
+		
+		while(iter.hasNext()) {
+			Pacco pacco = iter.next();
+			if (pacco.getIdNegozio() == idNegozio && 
+				pacco.getStatoPacco() == statoPacco)
+			{
+				if (strPacchi != "") strPacchi += " - ";
+				strPacchi += pacco.getIdVendita();
+			}
+		}
+		return strPacchi;		
+	}
+
+	public int affidaPacco(String idVendita, int idCorriere) {
+		String infoOperazione="";
+		boolean paccoTrovato = false;
+		Iterator<Pacco> iter = this.pacchi.iterator();
+		
+		while(iter.hasNext()) {
+			Pacco pacco = iter.next();
+			if (pacco.getIdVendita().equals(idVendita))
+			{				
+				if (pacco.getStatoPacco()==StatoPacco.daconsegnare)
+				{
+					
+					if(pacco.checkCorriere(idCorriere) )
+					{
+						pacco.setStatoPacco(StatoPacco.inconsegna);
+						
+						return 1;
+						
+					}
+					else
+					{
+						System.out.println("[ERR] Corriere non congruente ");
+						return 0;
+					}			
+				}
+				else
+				{
+					infoOperazione ="[ERR] Errore StatoPacco non congruente";
+					return -1;
+				}			
+			}
+		}
+		
+		return -1;
+
+	}
+
+	public Pacco getPaccoDaRitirare(String idVendita)
+	{
+		Iterator<Pacco> iter = this.pacchi.iterator();
+		
+		while(iter.hasNext()) {
+			Pacco pacco = iter.next();
+			if (pacco.getIdVendita().equals(idVendita))
+			{
+				return pacco;
+			}
+		}
+		return null;
+	}
+
+	public List<Pacco> getPacchiDaRitirare(int idCliente, int idLocker)
+	{
+		List<Pacco> pacchiDaRitirare = new LinkedList<>();
+		Iterator<Pacco> iter = this.pacchi.iterator();
+		
+		while(iter.hasNext()) {
+			Pacco pacco = iter.next();
+			if (pacco.getIdCliente()==idCliente && 
+					pacco.getIdLocker()==idLocker &&
+					pacco.getStatoPacco()==StatoPacco.conlocker)
+			{
+				pacchiDaRitirare.add(pacco);				
+			}
+		}
+		return pacchiDaRitirare;
+	}
+
+	public void prelevaPacco(String idVendita) {
+		Pacco pacco = this.cercaPacco(idVendita);
+		
+		if (pacco!=null)
+		{			
+			pacco.setStatoPacco(StatoPacco.ritirato);
+			pacco.setIdLocker(0);
+			pacco.setIdCella(0);
+			
+		}
+		
+
+		
+	}
+
+	private Pacco cercaPacco(String idVendita)
+	{
+		Iterator<Pacco> iter = this.pacchi.iterator();
+
+	    while (iter.hasNext	()) {
+	    	Pacco pacco = iter.next();
+	        if ( pacco.getIdVendita().equals(idVendita)) {
+	        	return pacco;
+	        }
+	    }
+	    return null;   			
+	}
+
+	public List<Pacco> getPacchiDaConsegnare(int idLocker, int idCorriere)
+	{
+		List<Pacco> pacchiDaConsegnare = new LinkedList<>();
+		Iterator<Pacco> iter = this.pacchi.iterator();
+		
+		while(iter.hasNext()) {
+			Pacco pacco = iter.next();
+			if (pacco.getIdLocker() == idLocker &&
+				pacco.getIdCorriere() == idCorriere &&
+				pacco.getStatoPacco() == StatoPacco.inconsegna)
+			{
+				pacchiDaConsegnare.add(pacco);
+			}
+		}
+		return pacchiDaConsegnare;
+		
+	}
+
+	public void inserisciPaccoToLocker(String idVendita, int cella)
+	{
+		Iterator<Pacco> iter = this.pacchi.iterator();
+		
+		while(iter.hasNext()) {
+			Pacco pacco = iter.next();
+			if (pacco.getIdVendita().equals(idVendita) )
+			{
+				pacco.setStatoPacco(StatoPacco.conlocker);
+				pacco.setIdCella(cella);	
+				
+			}
+		}
+				
+	}
+	
+
+	
+
 	
 	/*
 	public void SetPagato(String IDVendita)
