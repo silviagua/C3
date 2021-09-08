@@ -1,5 +1,7 @@
 package it.unicam.C3.service;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,73 +39,55 @@ public class DBUtenti extends DBConnection {
 		return false;
 	}
 	
-	public List<Utente> setUtenti(Ruolo ruolo) throws SQLException  {
+	/*
+	public List<Cliente> setUtenti(Ruolo ruolo) throws SQLException  {
 		sql = "SELECT ID AS id, Nome, Cognome, Mail, Password, Telefono, UserName FROM utente  \r\n"
 				+ "WHERE ID_RUOLO=" + (ruolo.ordinal() + 1);
 							
-		List<Utente> utenti = new LinkedList<>();
-		Utente utente;	
+		List<Cliente> clienti = new LinkedList<>();
+		Cliente cliente;	
 		
 		setData(sql);
 		while (getData().next()) {
 			
-			utente = new Utente(
+			cliente = new Cliente(
 					getData().getInt("ID"), 
 					getData().getString("Nome"), 
 					getData().getString("Cognome"), 
 					getData().getString("Mail"), 
 					getData().getString("Password"),
 					getData().getString("UserName"));
-			utenti.add(utente);				
+			clienti.add(cliente);
 		}
-		return utenti;
+		return clienti;
 	}	
-	
-	public Utente getUtentebyUserName(String userName) throws SQLException {
+	*/
+	public boolean cercaUtentebyUserName(String userName) throws SQLException {
 		sql = "SELECT ID AS id, Nome, Cognome, Mail, Password, Telefono, UserName FROM utente  \r\n"
 				+ "WHERE userName='" + userName+"'";
 							
-		Utente utente;	
 		
 		setData(sql);
 		if (getData().next()) {
-			
-			utente = new Utente(
-					getData().getInt("ID"), 
-					getData().getString("Nome"), 
-					getData().getString("Cognome"), 
-					getData().getString("Mail"), 
-					getData().getString("Password"),
-					getData().getString("UserName"));
-			return utente;			
+			return true;
 		}
 		else
 		{
-			return null;
+			return false;
 		}			
 	}
 	
-	public Utente getUtentebyMail(String mail) throws SQLException {
+	public boolean cercaUtentebyMail(String mail) throws SQLException {
 		sql = "SELECT ID AS id, Nome, Cognome, Mail, Password, Telefono, UserName FROM utente  \r\n"
 				+ "WHERE mail='" + mail +"'";
-							
-		Utente utente;	
-		
+									
 		setData(sql);
 		if (getData().next()) {
-			
-			utente = new Utente(
-					getData().getInt("ID"), 
-					getData().getString("Nome"), 
-					getData().getString("Cognome"), 
-					getData().getString("Mail"), 
-					getData().getString("Password"),
-					getData().getString("UserName"));
-			return utente;			
+			return true;
 		}
 		else
 		{
-			return null;
+			return false;
 		}			
 	}
 	
@@ -184,7 +168,7 @@ public class DBUtenti extends DBConnection {
 		if (getData().next()) {
 
 			//ReportTypeEnum value = ReportTypeEnum.values()[ordinal];
-			Ruolo ruoloUtente = Ruolo.values()[getData().getInt("ID_Ruolo") -1];
+			Ruolo ruoloUtente = Ruolo.values()[ getData().getInt("ID_Ruolo") -1];
 			switch(ruoloUtente)
 			{
 				case user:
@@ -222,6 +206,59 @@ public class DBUtenti extends DBConnection {
 		}    	
     	return null;		   	
 	}
+	
+	public List<Cliente> setClienti() throws SQLException  {
+		sql = "SELECT ID AS id, Nome, Cognome, Mail, Password, Telefono, UserName FROM utente  \r\n"
+				+ "WHERE ID_RUOLO=" + Ruolo.toInt(Ruolo.user) +"";
+							
+		List<Cliente> clienti = new LinkedList<>();
+		Cliente cliente;	
+
+		setData(sql);
+		while (getData().next()) {
+
+				cliente = new Cliente(
+						getData().getInt("ID"), 
+						getData().getString("Nome"), 
+						getData().getString("Cognome"), 
+						getData().getString("Mail"), 
+						getData().getString("Password"),
+						getData().getString("UserName"));
+				
+				clienti.add(cliente);
+		}
+
+		return clienti;
+	}		
+	
+
+	public List<Corriere> setCorrieri() throws SQLException  {
+		sql = "SELECT ID AS id, Nome, Cognome, Mail, Password, Telefono, UserName FROM utente  \r\n"
+			+ "WHERE ID_RUOLO=" + Ruolo.toInt(Ruolo.corr) +"";
+							
+		List<Corriere> corrieri = new LinkedList<>();
+		Corriere corriere;	
+
+		setData(sql);
+		while(getData().next()) {
+
+				corriere = new Corriere(
+						getData().getInt("ID"), 
+						getData().getString("Nome"), 
+						getData().getString("Cognome"), 
+						getData().getString("Mail"), 
+						getData().getString("Password"),
+						getData().getString("UserName"));
+				
+				corrieri.add(corriere);
+				
+		}
+		
+
+		return corrieri;
+	}		
+	
+	
 	
 	
 }

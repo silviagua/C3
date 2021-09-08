@@ -23,7 +23,13 @@ public class IUtente {
 	public void iscrizione(Scanner reader) 
 	{
 		System.out.println("[INPUT] Inserisci il ruolo del tuo utente (2: GESTORE NEGOZIO - 3: COMMESSO - 4: CLIENTE - 5: CORRIERE)");
+		
 		Ruolo ruolo = Ruolo.fromInteger(Integer.parseInt(reader.nextLine()));
+		
+		if (ruolo==Ruolo.admin)
+		{
+			return;
+		}
 		
 		System.out.println("[INPUT] Inserisci il tuo nome");
 		String nome = reader.nextLine();

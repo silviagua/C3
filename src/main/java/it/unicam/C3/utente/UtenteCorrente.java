@@ -2,7 +2,7 @@ package it.unicam.C3.utente;
 
 //classe generica per salvare utente corrente di tipo Cliente/Commesso/Corriere
 
-public class UtenteCorrente<T> {
+public class UtenteCorrente<T extends Utente> {
 
 	private T utente;
 	

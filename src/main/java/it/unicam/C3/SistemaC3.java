@@ -51,8 +51,8 @@ public class SistemaC3 {
 			System.out.println("[INFO] Carico i dati da DB");
 			
 			DBUtenti dbUtenti = DBUtenti.getInstance();
-			gUtenti.setClienti(dbUtenti.setUtenti(Ruolo.user));
-			gUtenti.setCorrieri(dbUtenti.setUtenti(Ruolo.corr));
+			gUtenti.setClienti(dbUtenti.setClienti());
+			gUtenti.setCorrieri(dbUtenti.setCorrieri());
 			
 			DBNegozi dbNegozi = DBNegozi.getInstance();
 			gNegozi.setNegozi(dbNegozi.setNegozi());

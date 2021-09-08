@@ -1,5 +1,7 @@
 package it.unicam.C3.utente;
 
+import it.unicam.C3.commercio.StatoPacco;
+
 public enum Ruolo {
 	admin,
 	gestn,
@@ -22,4 +24,21 @@ public enum Ruolo {
         }
         return null;
     }	
+	
+	
+	public static int toInt(Ruolo ruolo) {
+        switch(ruolo) {
+        case admin:
+            return 1;
+        case gestn:
+            return 2;
+        case comm:
+        	return 3;
+        case user:
+        	return 4;
+        case corr:
+        	return 5;
+        }
+        return 0;
+    }			
 }

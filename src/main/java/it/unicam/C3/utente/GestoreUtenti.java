@@ -10,8 +10,8 @@ import it.unicam.C3.service.*;
 
 public class GestoreUtenti {
     private static GestoreUtenti instance;
-    private List<Utente> corrieri;
-    private List<Utente> clienti;
+    private List<Corriere> corrieri;
+    private List<Cliente> clienti;
     private List<Commesso> commessi;
     private UtenteCorrente utenteCorrente;
     
@@ -22,7 +22,7 @@ public class GestoreUtenti {
         commessi = new LinkedList<>();
     }
 
-    private GestoreUtenti(List<Utente> clienti, List<Utente> corrieri, List<Commesso> commessi) {
+    private GestoreUtenti(List<Cliente> clienti, List<Corriere> corrieri, List<Commesso> commessi) {
         this.clienti = clienti;
         this.corrieri = corrieri;
         this.commessi=commessi;
@@ -35,19 +35,19 @@ public class GestoreUtenti {
         return instance;
     }
 
-    public static GestoreUtenti getInstance(List<Utente> clienti, List<Utente> corrieri, List<Commesso> commesso) {
+    public static GestoreUtenti getInstance(List<Cliente> clienti, List<Corriere> corrieri, List<Commesso> commesso) {
         if (instance == null) {
             instance = new GestoreUtenti(clienti, corrieri, commesso);
         }
         return instance;
     }
     
-    public void setClienti(List<Utente> clienti)
+    public void setClienti(List<Cliente> clienti)
     {
     	this.clienti = clienti;
     }
     
-    public void setCorrieri(List<Utente> corrieri)
+    public void setCorrieri(List<Corriere> corrieri)
     {
     	this.corrieri = corrieri;
     }
@@ -65,13 +65,13 @@ public class GestoreUtenti {
     
     public void addCliente(int id, String nome, String cognome, String email, String password, String userName) {
         
-        Utente newCliente = new Utente(id, nome, cognome, email, password, userName);
+        Cliente newCliente = new Cliente(id, nome, cognome, email, password, userName);
         clienti.add(newCliente);
     }    
 
     public void addCorriere(Corriere corriere)
     {
-    	clienti.add(corriere);
+    	corrieri.add(corriere);
     }    
     
     public void addCorriere(int id, String nome, String cognome, String email, String password, String userName){
@@ -90,7 +90,7 @@ public class GestoreUtenti {
     public void addCommessi(int id, String nome, String cognome, String email, String password, String userName, int idNegozio) {
         
         Commesso newCommesso = new Commesso(id, nome, cognome, email, password, userName, idNegozio);
-        clienti.add(newCommesso);
+        commessi.add(newCommesso);
     }    
     
     
@@ -104,7 +104,7 @@ public class GestoreUtenti {
     public String listaCorrieri()
     {
     	String info = "[INFO] CORRIERI: ";
-    	Iterator<Utente> iter = this.corrieri.iterator();
+    	Iterator<Corriere> iter = this.corrieri.iterator();
 
 	    while (iter.hasNext	()) {
 	    	Utente utente = iter.next();
@@ -116,7 +116,7 @@ public class GestoreUtenti {
     public String listaUtenti()
     {
     	String info = "[INFO] UTENTI: ";
-    	Iterator<Utente> iter = this.clienti.iterator();
+    	Iterator<Cliente> iter = this.clienti.iterator();
 
 	    while (iter.hasNext	()) {
 	    	Utente utente = iter.next();
@@ -134,9 +134,9 @@ public class GestoreUtenti {
     	{
 	    	DBUtenti dbUtenti = DBUtenti.getInstance();
 	    	
-	    	if (dbUtenti.getUtentebyUserName(username)!=null) return false;
+	    	if (dbUtenti.cercaUtentebyUserName(username)) return false;
 	    	
-	    	if (dbUtenti.getUtentebyMail(mail) !=null) return false;
+	    	if (dbUtenti.cercaUtentebyMail(mail)) return false;
     		
 	    	return true;   	
     	}

@@ -5,6 +5,9 @@ import java.util.Map;
 import it.unicam.C3.negozio.Negozio;
 import it.unicam.C3.negozio.Prodotto;
 import it.unicam.C3.trasporto.Locker;
+import it.unicam.C3.utente.Cliente;
+import it.unicam.C3.utente.Corriere;
+import it.unicam.C3.utente.Ruolo;
 import it.unicam.C3.utente.Utente;
 
 import java.util.HashMap;
@@ -174,7 +177,7 @@ public class DBManager {
 		return prodotti;
 	}
 	
-	
+	/*
 	public List<Utente> setUtenti(int idRuolo) throws SQLException  {
 		String sql = "SELECT ID AS id, Nome, Cognome, Mail, Password, Telefono, UserName FROM utente  \r\n"
 				+ "WHERE ID_RUOLO=" + idRuolo +"";
@@ -205,5 +208,8 @@ public class DBManager {
 
 		return utenti;
 	}		
-
+	*/
+	
+	
+	
 }

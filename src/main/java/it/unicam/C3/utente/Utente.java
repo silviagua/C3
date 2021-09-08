@@ -1,5 +1,5 @@
 package it.unicam.C3.utente;
-public  class Utente {
+public abstract class Utente {
 
 	private int id;
     private String nome;
