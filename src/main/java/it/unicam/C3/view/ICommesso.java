@@ -64,7 +64,7 @@ public class ICommesso {
 		System.out.println("[INFO] CASO D'USO ELABORA_VENDITA (Commesso " + this.getUserName() + " - negozio " + this.getIdNegozio() + ") ***");
 						
 		System.out.println("[INPUT] Inserisci l'identificativo del cliente:");
-		System.out.println(gUtenti.listaUtenti());
+		System.out.println(gUtenti.listaClienti());
 		int idCliente = Integer.parseInt(reader.nextLine());		
 		
 		vendita = gCommercio.iniziaVendita(idCliente, this.getIdNegozio());

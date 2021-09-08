@@ -1,10 +1,9 @@
 package it.unicam.C3.utente;
-import java.sql.SQLException;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import it.unicam.C3.commercio.Vendita;
 import it.unicam.C3.service.*;
 
 
@@ -13,7 +12,7 @@ public class GestoreUtenti {
     private List<Corriere> corrieri;
     private List<Cliente> clienti;
     private List<Commesso> commessi;
-    private UtenteCorrente utenteCorrente;
+    private UtenteCorrente<?> utenteCorrente;
     
     
     private GestoreUtenti() {
@@ -57,10 +56,10 @@ public class GestoreUtenti {
     	this.commessi = commessi;
     }
     
-    public void addCliente(Cliente cliente)
+    private void addCliente(Cliente cliente)
     {
     	clienti.add(cliente);
-    }
+    }    
     
     
     public void addCliente(int id, String nome, String cognome, String email, String password, String userName) {
@@ -69,7 +68,7 @@ public class GestoreUtenti {
         clienti.add(newCliente);
     }    
 
-    public void addCorriere(Corriere corriere)
+    private void addCorriere(Corriere corriere)
     {
     	corrieri.add(corriere);
     }    
@@ -80,14 +79,13 @@ public class GestoreUtenti {
         corrieri.add(newCorriere);
     }    
 
-    
-    public void addCommesso(Commesso commesso)
+    private void addCommesso(Commesso commesso)
     {
     	commessi.add(commesso);
     }
     
     
-    public void addCommessi(int id, String nome, String cognome, String email, String password, String userName, int idNegozio) {
+    public void addCommesso(int id, String nome, String cognome, String email, String password, String userName, int idNegozio) {
         
         Commesso newCommesso = new Commesso(id, nome, cognome, email, password, userName, idNegozio);
         commessi.add(newCommesso);
@@ -101,31 +99,34 @@ public class GestoreUtenti {
     	
     }
     
+    
     public String listaCorrieri()
     {
     	String info = "[INFO] CORRIERI: ";
     	Iterator<Corriere> iter = this.corrieri.iterator();
 
 	    while (iter.hasNext	()) {
-	    	Utente utente = iter.next();
-	    	info += "(" + utente.getId() + ") " + utente.getNome() + "-" + utente.getCognome() + "; ";
+	    	
+	    	Corriere corriere = iter.next();	    	
+	    	info +=  corriere.toString();
+	    	
 		    }    	
 	    return info;
     }
 
-    public String listaUtenti()
+    public String listaClienti()
     {
-    	String info = "[INFO] UTENTI: ";
+    	String info = "[INFO] CLIENTI: ";
     	Iterator<Cliente> iter = this.clienti.iterator();
 
 	    while (iter.hasNext	()) {
-	    	Utente utente = iter.next();
+	    	Cliente cliente  = iter.next();
 	    	
-	    	info += "(" + utente.getId() + ") " + utente.getNome() + "-" + utente.getCognome() + "; ";
+	    	info += cliente.toString();
 		    }    	
 	    return info;
-    	
     }
+    
     
     public boolean checkUtente(String nome, String cognome, String pwd, String mail, String username) 
     {
@@ -162,8 +163,7 @@ public class GestoreUtenti {
     	catch(Exception ex)
     	{
     		System.out.println(ex.getMessage());
-    	}
-    	
+    	}	
     }
     
     public void inserisciCorriere (String nome, String cognome, String pwd, String mail, String username) 
@@ -229,12 +229,13 @@ public class GestoreUtenti {
     	
     }    
     
-    public UtenteCorrente login(String username, String password)
+    public UtenteCorrente<?> login(String username, String password)
     {
     	try
     	{
     		DBUtenti dbUtenti = DBUtenti.getInstance();
     		utenteCorrente= new UtenteCorrente( dbUtenti.getUtente(username, password));
+   		
     		return utenteCorrente;
 
     	}
@@ -246,7 +247,7 @@ public class GestoreUtenti {
     	
     }
     
-    public UtenteCorrente getUtenteCorrente()
+    public UtenteCorrente<?> getUtenteCorrente()
     {
     	return utenteCorrente;
     }

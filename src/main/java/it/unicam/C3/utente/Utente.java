@@ -1,4 +1,7 @@
 package it.unicam.C3.utente;
+
+import java.util.Iterator;
+
 public abstract class Utente {
 
 	private int id;
@@ -60,7 +63,9 @@ public abstract class Utente {
     }
 
     public String toString(){
-        return this.nome+" "+this.cognome+" "+this.email;
+                    	
+    	return "(" + this.id + ") " + this.nome + "-" + this.cognome  + "; ";
+        
     }
     
     public Utente(int id, String nome, String cognome, String email, String password, String userName) {
@@ -71,4 +76,5 @@ public abstract class Utente {
         this.setPassword(password);
         this.setUserName(userName);
     }    
+    
 }
