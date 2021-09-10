@@ -41,7 +41,10 @@ Descritti nel dettaglio i seguenti casi d'uso:
 - Iscrizione (Utente anonimo)
 - Login (Utente anonimo)
 - Logout (Utente C3)
+- Visualizza Vendite (Cliente)
+- Consegna Pacchi (Utente C3)
 
-Create classi separate per la gestione delle diverse aree del database 
-Create diverse classi per l'interazione con gli utenti
-(Aggiunta tabella prodottovendita per inserire i prodotti di ogni vendita)
+Create classi separate per la gestione delle diverse aree del database. 
+Create diverse classi per l'interazione con gli utenti.
+Aggiunto il caso d'uso 'Ritira pacchi' anche per l'utente anonimo, in quanto un qualsiasi utente in 
+possesso di un id_pacco valido può ritirare un pacco dal locker, senza dover fare il login.

@@ -1,4 +1,6 @@
 package it.unicam.C3.view;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -15,14 +17,22 @@ public class ICorriere {
 	private GestoreUtenti gUtenti = GestoreUtenti.getInstance();
 	private GestoreLocker gLocker= GestoreLocker.getInstance();
 	
+	int idCorriere;		
+	String userName;
+	
+	
 	private ICorriere() {
 		this.gCommercio = GestoreCommercio.getInstance();
 		this.gUtenti = GestoreUtenti.getInstance();
 		this.gLocker = GestoreLocker.getInstance();
+		this.idCorriere = ((Corriere) gUtenti.getUtenteCorrente().getUtenteCorrente()).getId();
+		this.userName = ((Corriere) gUtenti.getUtenteCorrente().getUtenteCorrente()).getUserName();
+
 	}
 	
 	public static ICorriere createICorriere() {
 		ICorriere corriere = new ICorriere();
+				
 		return corriere;
 	}		
 
@@ -33,8 +43,6 @@ public class ICorriere {
 		System.out.println("[INPUT] Inserisci l'identificativo del corriere:");
 		int idCorriere = Integer.parseInt(reader.nextLine());
 		*/
-		int idCorriere = ((Corriere) gUtenti.getUtenteCorrente().getUtenteCorrente()).getId();		
-		String userName = ((Corriere) gUtenti.getUtenteCorrente().getUtenteCorrente()).getUserName();
 
 		System.out.println("[INFO] CASO D'USO SCARICA_PACCHI (Corriere " + userName + ") ***");
 		
@@ -44,7 +52,7 @@ public class ICorriere {
 		System.out.println(gLocker.listaLocker());
 		int idLocker = Integer.parseInt(reader.nextLine());		
 		
-		List<Pacco> pacchiDaConsegnare = gCommercio.getPacchiDaConsegnare(idLocker,idCorriere);
+		List<Pacco> pacchiDaConsegnare = gCommercio.getPacchiDaConsegnareLocker(idLocker,idCorriere);
 			
 		Iterator<Pacco> iter = pacchiDaConsegnare.iterator();
 		
@@ -72,6 +80,58 @@ public class ICorriere {
 			
 		}		
 		
-	}	
+	}
+	
+	
+	//CASO D'USO CONSEGNA_PACCHI
+	public void consegnaPacchi(Scanner reader)
+	{
+		/* l'id del corrire lo prendo dall'utente corrente 
+		System.out.println("[INPUT] Inserisci l'identificativo del corriere:");
+		int idCorriere = Integer.parseInt(reader.nextLine());
+		*/
+
+		System.out.println("[INFO] CASO D'USO CONSEGNA_PACCHI (Corriere " + userName + ") ***");
+		
+
+		System.out.println("[INPUT] Inserisci l'identificativo del cliente:");
+		int idCliente = Integer.parseInt(reader.nextLine());				
+	
+		System.out.println("[INPUT] Inserisci 1 se cliente è presente 0 se cliente non presente");
+		String consegnaOK = reader.nextLine();
+		
+		List<Pacco> pacchiDaConsegnare=gCommercio.getPacchiDaConsegnareCliente(idCliente, idCorriere);
+		Iterator<Pacco> iter = pacchiDaConsegnare.iterator();
+		
+		while(iter.hasNext()) {
+			Pacco pacco = iter.next();
+			
+			if (consegnaOK.equals("1"))
+			{
+				System.out.println("[INPUT] Digita 1 quando hai consegnato pacco " + pacco.getIdVendita() + " al cliente " + pacco.getIdCliente());
+				if (reader.nextLine().equals("1"))
+				{
+					gCommercio.consegnaPacco(pacco.getIdVendita());
+					gUtenti.inviaNotifica(idCliente, "Pacco " + pacco.getIdVendita() +" consegnato ");
+				}
+			}
+			else
+			{
+				System.out.println("[INPUT] Inserisci una data di consegna (dd/mm/yyyy)");
+				
+				LocalDate newDate = null;  //Declare LocalDate variable to receive the formatted date.
+			    DateTimeFormatter dateTimeFormatter;  //Declare date formatter
+			    
+			    dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+				newDate= LocalDate.parse(reader.nextLine(),dateTimeFormatter);   
+
+				gCommercio.consegnaPaccoFallita(pacco.getIdVendita(), newDate);
+				gUtenti.inviaNotifica(idCliente, "Pacco " + pacco.getIdVendita() + " non consegnato. Nuova data di consegna " + newDate );
+			}
+		}		
+		
+		
+	}
 	
 }

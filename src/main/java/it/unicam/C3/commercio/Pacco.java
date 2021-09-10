@@ -1,16 +1,20 @@
 package it.unicam.C3.commercio;
 
+import java.time.LocalDate;
+
 public class Pacco {
 	private TipoDestinazione tipoDestinazione;
 	private String indirizzo;
 	private int idLocker;
-	private int idCella;
+	private int cella;
 	private int idCliente;
 	private int idCorriere;
 	private int idNegozio;
 	private String idVendita;
 	private int idVenditaDB;
 	private StatoPacco statoPacco;
+	private int numConsegneFallite;
+	private LocalDate dataConsegna;
 	
 	
 	public Pacco(String idVendita, int idCliente, int idNegozio, int idVenditaDB)
@@ -19,13 +23,43 @@ public class Pacco {
 		this.idCliente = idCliente;
 		this.idNegozio = idNegozio;
 		this.idVenditaDB = idVenditaDB;
+		this.statoPacco=StatoPacco.creato;
+		this.cella=0;
+		this.numConsegneFallite=0;
+	}
+
+	public Pacco(TipoDestinazione tipoDestinazione, String indirizzo, int idLocker, int cella,
+			int idCliente,int idCorriere, int idNegozio, String idVendita, 
+			int idVenditaDB, StatoPacco sp, int numConsegneFallite, LocalDate dataConsegna) {
+		this.tipoDestinazione=tipoDestinazione;
+		this.indirizzo=indirizzo;
+		this.idLocker=idLocker;
+		this.cella=cella;
+		this.idCliente=idCliente;
+		this.idCorriere=idCorriere;
+		this.idNegozio=idNegozio;
+		this.idVendita = idVendita;
+		this.idVenditaDB=idVenditaDB;
+		this.statoPacco=sp;
+		this.numConsegneFallite=numConsegneFallite;
+		if (dataConsegna!= null)
+		{
+			this.dataConsegna=dataConsegna;
+		}
 	}
 	
-	public Pacco(TipoDestinazione tipoDestinazione, String idVendita, int idNegozio, int idVenditaDB) {
-		this.tipoDestinazione=tipoDestinazione;
-		this.idVendita = idVendita;
-		this.idNegozio = idNegozio;
-		this.idVenditaDB = idVenditaDB;
+	
+	
+
+	public int getNumConsegneFallite()
+	{
+		return this.numConsegneFallite;
+	}
+	
+	
+	public void addConsegnaFallita()
+	{
+		this.numConsegneFallite++;
 	}
 	
 	public int getIdVenditaDB()
@@ -105,14 +139,22 @@ public class Pacco {
 		return this.idNegozio;
 	}
 	
-	public void setIdCella(int idCella)
-	{
-		this.idCella=idCella;
+	public LocalDate getDataConsegna() {
+		return this.dataConsegna;
 	}
 	
-	public int getIdCella()
+	public void setDataConsegna(LocalDate dataConsegna) {
+		this.dataConsegna= dataConsegna;
+	}
+	
+	public void setCella(int idCella)
 	{
-		return this.idCella;
+		this.cella=idCella;
+	}
+	
+	public int getCella()
+	{
+		return this.cella;
 	}
 	
 	public boolean checkCorriere (int idCorriere)
@@ -127,4 +169,22 @@ public class Pacco {
 		}
 	}
 	
+	public String toString()
+	{
+		if (statoPacco!=StatoPacco.inconsegna)
+		{
+			return "(" + this.idVendita + ") Negozio:" + this.idNegozio + " - Stato:" + StatoPacco.toString(statoPacco) +  " Cliente:" + this.idCliente;
+		}
+		else
+		{
+			if (this.tipoDestinazione==TipoDestinazione.indirizzo)
+			{
+				return "(" + this.idVendita + ") Negozio:" + this.idNegozio + " - Stato:" + StatoPacco.toString(statoPacco) + " presso Indirizzo " + this.indirizzo + " - con Corriere " + this.idCorriere + " - num consegne fallite " + this.numConsegneFallite + " Cliente:" + this.idCliente; 
+			}
+			else
+			{
+				return "(" + this.idVendita + ") Negozio:" + this.idNegozio + " - Stato:" + StatoPacco.toString(statoPacco) + " presso Locker " + this.idLocker + " - con Corriere " + this.idCorriere + " - num consegne fallite " + this.numConsegneFallite + " Cliente:" + this.idCliente;
+			}				
+		}
+	}
 }

@@ -57,7 +57,7 @@ public class DBLocker extends DBConnection {
         prepStat.setString(1, locker.getCelle()  );
         prepStat.setInt(2, locker.getIdLocker());
         
-        System.out.println(prepStat);
+        //System.out.println(prepStat);
         prepStat.executeUpdate();       		
 	
 	}

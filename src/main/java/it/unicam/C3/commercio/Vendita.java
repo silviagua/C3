@@ -18,12 +18,21 @@ public class Vendita {
 	private int idCliente;
 	private String idVendita;
 	private int id;
-	
-	private GestoreNegozi gNegozi= GestoreNegozi.getInstance();
-	
+	private boolean isPacco;
+	 
 	
 	
 	private List<ProdottoVendita> prodotti;
+	
+	public void setIsPacco(boolean isPacco)
+	{
+		this.isPacco=isPacco;
+	}
+	
+	public boolean getIsPacco()
+	{
+		return this.isPacco;
+	}
 	
 	public void setId(int id)
 	{
@@ -100,9 +109,19 @@ public class Vendita {
 		return this.idNegozio;
 	}
 	
-	
-	
-	
+	public Vendita(String idVendita, int id, LocalDate data, float importo, float iva, int idNegozio, int idCliente, boolean pagato, boolean isPacco)
+	{
+		this.idVendita=idVendita;
+		this.id=id;
+		this.data=data;
+		this.importo=importo;
+		this.iva=iva;
+		this.idNegozio=idNegozio;
+		this.idCliente=idCliente;
+		this.pagato=pagato;
+		this.isPacco=isPacco;
+	}
+		
 	//inizio una nuova vendita impostando la data e  l'ID del negozio
 	public Vendita(int idNegozio, int idCliente)
 	{
@@ -112,6 +131,7 @@ public class Vendita {
 		this.importo = 0;
 		this.iva = 0;
 		this.idVendita = UUID.randomUUID().toString();
+		this.isPacco=false;
 		
 		this.prodotti = new LinkedList<>();
 	}
@@ -119,7 +139,7 @@ public class Vendita {
 	public String addProdottoVendita(int id, int qta)
 	{	
 		//cerco il prodotto con ID indicato
-		Prodotto prod = gNegozi.getProdotto(this.idNegozio, id);
+		Prodotto prod = GestoreNegozi.getInstance().getProdotto(this.idNegozio, id);
 		
 		ProdottoVendita prodVendita = new ProdottoVendita(
 				prod.getId(),
@@ -133,6 +153,11 @@ public class Vendita {
 		this.importo += prod.getPrezzo() * qta;
 		this.iva += this.iva + (prod.getPrezzo() * prod.getIvaOrdinaria() /100) * qta; 
 		return  "[OUTPUT] Nome: " + prod.getNome() + "- Prezzo unitario: " + prod.getPrezzo() + "- Qta: " + String.valueOf(qta) + " - Tot " + this.importo + " - Iva: " + this.iva;
+	}
+	
+	public String toString()
+	{
+		return "(" + this.idVendita + ") Negozio:" + this.idNegozio + " Data: " + this.data + " Cliente:" + this.idCliente;
 	}
 	
 }

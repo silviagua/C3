@@ -22,7 +22,8 @@ public class InteractionManagerCliente {
 		while (true) {
 			System.out.println("[INFO] MENU CLIENTE ***");
 			
-			System.out.println("[INPUT] Cliente - Scegli 6 per Ritirare pacco dal locker");			
+			System.out.println("[INPUT] Cliente - Scegli 6 per Ritirare pacco dal locker");		
+			System.out.println("[INPUT] Cliente - Scegli 8 per visualizzare lo stato delle vendite e dei pacchi");
 			System.out.println("[INPUT] Cliente - Scegli 9 per logout");			
 						
 			System.out.println("[INPUT] Scegli 0 per uscire");
@@ -33,6 +34,11 @@ public class InteractionManagerCliente {
 			
 			if(richiesta.equals("6")) {
 				cliente.ritiraPacco(reader);
+				continue;
+			}
+			
+			if(richiesta.equals("8")) {
+				utenteC3.visualizzaVendite(reader);
 				continue;
 			}
 			

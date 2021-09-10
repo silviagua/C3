@@ -41,4 +41,20 @@ public enum StatoPacco {
         }
         return null;
     }		
+	
+	public static String toString(StatoPacco sp) {
+		switch(sp) {
+		case creato:
+			return "CREATO";
+		case daconsegnare:
+			return "DA CONSEGNARE";
+		case inconsegna:
+			return "IN CONSEGNA";
+		case ritirato:
+			return "RITIRATO";
+		case conlocker:
+			return "CONSEGNATO AL LOCKER";
+		}
+		return "";
+	}
 }

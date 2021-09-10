@@ -100,12 +100,13 @@ CREATE TABLE VENDITA (
     pagato boolean not null,
     ID_Utente int NOT NULL,
     ID_Negozio int NOT NULL,
+    IsPacco boolean,
     PRIMARY KEY(ID),
     FOREIGN KEY (ID_Utente) REFERENCES UTENTE(ID),
     FOREIGN KEY (ID_Negozio) REFERENCES NEGOZIO(ID)
 );
 
-DROP TABLE IF EXISTS PRDOTTO_VENDITA;
+DROP TABLE IF EXISTS PRODOTTO_VENDITA ;
 CREATE TABLE PRODOTTO_VENDITA (
     ID int NOT NULL AUTO_INCREMENT,
     ID_Prodotto int NOT NULL,
@@ -166,6 +167,9 @@ CREATE TABLE Pacco (
     ID_Locker int,
     ID_VENDITA INT NOT NULL,
     ID_CORRIERE int, 
+    Cella int default 0,
+    NumConsegneFallite int default 0,
+    DataConsegna date,
     PRIMARY KEY (ID),
 	FOREIGN KEY (ID_Tipo_Destinazione) REFERENCES TIPO_DESTINAZIONE(ID),
 	FOREIGN KEY (ID_Stato_Pacco) REFERENCES Stato_Pacco(ID),

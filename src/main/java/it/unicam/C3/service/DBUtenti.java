@@ -34,7 +34,7 @@ public class DBUtenti extends DBConnection {
 		return instance;
 	}
 	
-	boolean checkUtente(String nome, String cognome, String pwd, String mail, String username) {
+	public boolean checkUtente(String nome, String cognome, String pwd, String mail, String username) {
 		
 		return false;
 	}
@@ -258,6 +258,33 @@ public class DBUtenti extends DBConnection {
 		return corrieri;
 	}		
 	
+	public List<Commesso> setCommessi() throws SQLException  {
+		sql = "SELECT ID AS id, Nome, Cognome, Mail, Password, Telefono, UserName, ID_NEGOZIO\r\n"
+			+ " FROM utente  \r\n"
+			+ "WHERE ID_RUOLO=" + Ruolo.toInt(Ruolo.comm) +"";
+							
+		List<Commesso> commessi = new LinkedList<>();
+		Commesso commesso;	
+
+		setData(sql);
+		while(getData().next()) {
+
+				commesso = new Commesso(
+						getData().getInt("ID"), 
+						getData().getString("Nome"), 
+						getData().getString("Cognome"), 
+						getData().getString("Mail"), 
+						getData().getString("Password"),
+						getData().getString("UserName"),
+						getData().getInt("ID_NEGOZIO"));
+				
+				commessi.add(commesso);
+				
+		}
+		
+
+		return commessi;
+	}		
 	
 	
 	

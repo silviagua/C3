@@ -9,12 +9,14 @@ import it.unicam.C3.commercio.Pacco;
 import it.unicam.C3.trasporto.GestoreLocker;
 import it.unicam.C3.utente.Cliente;
 import it.unicam.C3.utente.GestoreUtenti;
+import it.unicam.C3.utente.Ruolo;
 
 public class ICliente {
 	private GestoreCommercio gCommercio = GestoreCommercio.getInstance();
 	private GestoreUtenti gUtenti = GestoreUtenti.getInstance();
 	private GestoreLocker gLocker= GestoreLocker.getInstance();
-	private String userName;
+	private String userName ="NN";
+	private int idCliente = 0;
 	
 	public void setUserName(String userName)
 	{
@@ -30,7 +32,15 @@ public class ICliente {
 		this.gCommercio = GestoreCommercio.getInstance();
 		this.gUtenti = GestoreUtenti.getInstance();
 		this.gLocker = GestoreLocker.getInstance();
-		this.setUserName(((Cliente) gUtenti.getUtenteCorrente().getUtenteCorrente()).getUserName());
+		try
+		{
+			this.userName = ((Cliente) gUtenti.getUtenteCorrente().getUtenteCorrente()).getUserName();
+			this.idCliente = ((Cliente) gUtenti.getUtenteCorrente().getUtenteCorrente()).getId();
+		}
+		catch(Exception ex)
+		{
+			
+		}
 	}
 	
 	public static ICliente createICliente() {
@@ -38,8 +48,7 @@ public class ICliente {
 		return cliente;
 	}		
 	
-	//CASO D'USO RITIRA_PACCO
-	
+	//CASO D'USO RITIRA_PACCO	
 	public void ritiraPacco(Scanner reader)
 	{
 		System.out.println("[INFO] CASO D'USO RITIRA_PACCO (Cliente " + this.getUserName() + ") ***");
@@ -69,7 +78,7 @@ public class ICliente {
 				while(iter.hasNext()) {
 					Pacco paccoCurr = iter.next();
 					
-					int cellaPacco = paccoCurr.getIdCella();
+					int cellaPacco = paccoCurr.getCella();
 					int idLockerPacco = paccoCurr.getIdLocker();
 					System.out.println("[INFO] Premi 1 per ritirare il pacco " + paccoCurr.getIdVendita() + " nella cella " + cellaPacco + " - Premi 0 per annullare");
 					
@@ -84,10 +93,15 @@ public class ICliente {
 						
 						gUtenti.inviaNotifica(paccoCurr.getIdCliente(), "Il pacco " + pacco.getIdVendita() + " è stato ritirato dal locker " + idLockerPacco);
 					}
-				}
-							
+				}							
 			}
 		}
 	}
-
+	
+	//CASO D'USO VISUALIZZA_VENDITE		
+	public void visualizzaVendite(Scanner reader)
+	{
+		System.out.println("[INFO]" + gCommercio.visualizzaInfo(this.idCliente, Ruolo.user));
+	
+	}
 }

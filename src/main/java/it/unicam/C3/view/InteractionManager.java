@@ -44,7 +44,7 @@ public class InteractionManager {
 				continue;
 			}
 			if(richiesta.equals("4")) {
-				commesso.affidaPacco(reader);
+				commesso.affidaPacchi(reader);
 				continue;
 			}			
 			

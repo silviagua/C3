@@ -23,6 +23,9 @@ public class InteractionManagerCorriere {
 			System.out.println("[INFO] MENU CORRIERE ***");
 			
 			System.out.println("[INPUT] Corriere - Scegli 5 per scaricare i pacchi del corriere al locker");			
+			System.out.println("[INPUT] Corriere - Scegli 6 per scaricare i pacchi del corriere all'indirizzo del Cliente");			
+			System.out.println("[INPUT] Corriere - Schegli 8 per visualizzare lo stato dei pacchi");
+
 			System.out.println("[INPUT] Corriere - Scegli 9 per logout");			
 						
 			System.out.println("[INPUT] Scegli 0 per uscire");
@@ -36,6 +39,16 @@ public class InteractionManagerCorriere {
 				continue;
 			}			
 			
+			if(richiesta.equals("6")) {
+				corriere.consegnaPacchi(reader);
+				continue;
+			}			
+			
+			if(richiesta.equals("8")) {
+				utenteC3.visualizzaVendite(reader);
+				continue;
+			}
+			
 			if(richiesta.equals("9")) {
 				utenteC3.logout(reader);
 				
@@ -44,6 +57,7 @@ public class InteractionManagerCorriere {
 				IM.view(reader);				
 				continue;
 			}
+			
 			else {
 				continue;
 			}

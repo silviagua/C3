@@ -16,6 +16,12 @@ public class Locker {
 		
 		this.celle = new String(new char[numCelle]).replace('\0', '0');
 	}
+	
+	public String toString()
+	{
+		return "(" + this.idLocker + ") " + this.nome + "-" + this.indirizzo  + "; ";
+
+	}
 
 	
 	public void occupaCella(int numCella)

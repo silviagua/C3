@@ -14,7 +14,6 @@ public class GestoreLocker {
 
     private GestoreLocker() {
     	lockers = new LinkedList<>();
-    	
     }    
     
     public static GestoreLocker getInstance() {
@@ -22,6 +21,11 @@ public class GestoreLocker {
             instance = new GestoreLocker();
         }
         return instance;
+    }
+    
+    public void resetGestoreLocker()
+    {
+    	lockers = new LinkedList<>();    	
     }
 
     public void addLocker(int id, String nome, String descrizione, int numCelle) {
@@ -57,7 +61,7 @@ public class GestoreLocker {
 	    while (iter.hasNext	()) {
 	    	Locker locker = iter.next();
 	    	
-	    	info += "(" + locker.getIdLocker() + ") " + locker.getNome() + "-" + locker.getIndirizzo() + "; ";
+	    	info += locker.toString();
 		    }    	
 	    return info;
     	

@@ -4,15 +4,17 @@ package it.unicam.C3.interactionManager;
 import java.util.Scanner;
 
 import it.unicam.C3.utente.UtenteCorrente;
+import it.unicam.C3.view.ICliente;
 import it.unicam.C3.view.IUtente;
 
 public class InteractionManagerUtente {
 
 	private IUtente utente;
-	
+	private ICliente cliente;
 	
 	public InteractionManagerUtente() {
 		utente = IUtente.createIUtente();
+		cliente= ICliente.createICliente();
 	}
 
 	public void view(Scanner reader) {
@@ -25,9 +27,9 @@ public class InteractionManagerUtente {
 			System.out.println("[INPUT] Commesso - Scegli 2 per generare un pacco");
 			System.out.println("[INPUT] Commesso - Scegli 3 per scegliere un corriere");
 			System.out.println("[INPUT] Commesso - Scegli 4 per consegnare il pacco al corriere");
-			System.out.println("[INPUT] Corriere - Scegli 5 per scaricare i pacchi del corriere al locker");			
-			System.out.println("[INPUT] Cliente - Scegli 6 per Ritirare pacco dal locker");
-			*/
+			System.out.println("[INPUT] Corriere - Scegli 5 per scaricare i pacchi del corriere al locker");
+			*/			
+			System.out.println("[INPUT] Utente - Scegli 6 per Ritirare pacco dal locker");
 			System.out.println("[INPUT] Utente - Scegli 7 per iscriverti al sistema");
 			System.out.println("[INPUT] Utente - Scegli 8 per fare il login");
 			
@@ -57,11 +59,11 @@ public class InteractionManagerUtente {
 				corriere.scaricaPacchi(reader);
 				continue;
 			}			
+			*/
 			if(richiesta.equals("6")) {
 				cliente.ritiraPacco(reader);
 				continue;
-			}
-			*/
+			}			
 			if(richiesta.equals("7")) {
 				utente.iscrizione(reader);
 				continue;

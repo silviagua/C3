@@ -1,10 +1,13 @@
 package it.unicam.C3.commercio;
 
+import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import it.unicam.C3.service.DBUtenti;
+import it.unicam.C3.utente.GestoreUtenti;
+import it.unicam.C3.utente.Ruolo;
 import it.unicam.C3.service.DBCommercio;
 
 public class GestoreCommercio {
@@ -36,6 +39,11 @@ public class GestoreCommercio {
         return instance;
     }
     
+    public void resetGestoreCommercio()
+    {
+    	vendite = new LinkedList<>();
+        pacchi = new LinkedList<>();    	
+    }
 	
 	public Vendita iniziaVendita(int IDCliente, int IDNegozio)
 	{
@@ -80,6 +88,7 @@ public class GestoreCommercio {
 		Vendita vendita = cercaVendita(idVendita);
 		if (vendita != null)
 		{
+			vendita.setIsPacco(true);
 			pacco = new Pacco(idVendita, vendita.getIdCliente(), vendita.getIdNegozio(), vendita.getId());
 		}
 		
@@ -95,7 +104,7 @@ public class GestoreCommercio {
 			
 			DBCommercio dbVendita = DBCommercio.getInstance();
 			dbVendita.insertPacco(pacco);
-			
+			dbVendita.updateVendita(pacco.getIdVendita());
 			pacchi.add(pacco);
 					
     	}
@@ -141,7 +150,7 @@ public class GestoreCommercio {
 	}
 	
 	
-	public List<Pacco> getPacchiDaConsegnare(int idLocker, int idCorriere)
+	public List<Pacco> getPacchiDaConsegnareLocker(int idLocker, int idCorriere)
 	{
 		List<Pacco> pacchiDaConsegnare = new LinkedList<>();
 		Iterator<Pacco> iter = this.pacchi.iterator();
@@ -174,7 +183,7 @@ public class GestoreCommercio {
 				dbCommercio.updatePacco(pacco);
 				
 				pacco.setStatoPacco(StatoPacco.conlocker);
-				pacco.setIdCella(cella);	
+				pacco.setCella(cella);	
 				
 				}
 				catch(Exception ex)
@@ -308,7 +317,7 @@ public class GestoreCommercio {
 		{			
 			pacco.setStatoPacco(StatoPacco.ritirato);
 			pacco.setIdLocker(0);
-			pacco.setIdCella(0);
+			pacco.setCella(0);
 			
 			try {
 				DBCommercio dbCommercio = DBCommercio.getInstance();
@@ -320,7 +329,168 @@ public class GestoreCommercio {
 			}
 		}
 		
+	}
+	
+	public List<Pacco> getPacchiDaConsegnareCliente(int idCliente,int idCorriere)
+	{
+		List<Pacco> pacchiDaConsegnare = new LinkedList<>();
+		Iterator<Pacco> iter = this.pacchi.iterator();
 		
+		while(iter.hasNext()) {
+			Pacco pacco = iter.next();
+			if (pacco.getIdCliente() == idCliente &&
+				pacco.getIdCorriere() == idCorriere &&
+				pacco.getStatoPacco() == StatoPacco.inconsegna)
+			{
+				pacchiDaConsegnare.add(pacco);
+			}
+		}
+		return pacchiDaConsegnare;	
+	}
+	
+	public void consegnaPacco(String idVendita)
+	{
+		Pacco pacco = this.cercaPacco(idVendita);
+		
+		if (pacco!=null)
+		{			
+			pacco.setStatoPacco(StatoPacco.ritirato);
+			
+			try {
+				DBCommercio dbCommercio = DBCommercio.getInstance();
+				dbCommercio.updatePacco(pacco);
+			}
+			catch(Exception ex)
+			{
+				System.out.println("[ERR] " + ex.getMessage());
+			}
+		}		
+	}
+	
+	public void consegnaPaccoFallita(String idVendita, LocalDate dataConsegna )
+	{
+		Pacco pacco = this.cercaPacco(idVendita);
+		
+		if (pacco!=null)
+		{			
+			pacco.setStatoPacco(StatoPacco.inconsegna);
+			pacco.setDataConsegna(dataConsegna);
+			pacco.addConsegnaFallita();
+			
+			try {
+				DBCommercio dbCommercio = DBCommercio.getInstance();
+				dbCommercio.updatePacco(pacco);
+			}
+			catch(Exception ex)
+			{
+				System.out.println("[ERR] " + ex.getMessage());
+			}
+		}				
+	}
+	
+	public String visualizzaInfo(int idUtente, Ruolo ruoloUtente)
+	{
+		String info="";
+		Iterator<Vendita> iterV = this.vendite.iterator();
+		Iterator<Pacco> iterP = this.pacchi.iterator();
+		boolean primoCiclo=true;
+		
+		switch(ruoloUtente)
+		{
+			case user:
+				primoCiclo=true;
+				iterV=this.vendite.iterator();
+			    while (iterV.hasNext	()) {
+			    	if (primoCiclo)
+			    	{
+			    		info += "VENDITE:\n";
+			    		primoCiclo=false;
+			    	}
+			    	Vendita vendita = iterV.next();
+			        if ( vendita.getIsPacco()==false && vendita.getIdCliente()==idUtente ) {
+			        	info += vendita.toString() + "\n";	        	
+			        }
+			    }
+			    
+			    primoCiclo=true;
+			    iterP=this.pacchi.iterator();
+			    while (iterP.hasNext	()) {
+			    	if (primoCiclo)
+			    	{
+			    		info += "\nPACCHI:\n ";
+			    		primoCiclo=false;
+			    	}	    	
+			    	Pacco pacco = iterP.next();
+			        if ( pacco.getIdCliente()==idUtente ) {
+			        	info += pacco.toString() + "\n";	        	
+			        }
+			    }	 
+			    break;
+			    
+			case comm:
+				GestoreUtenti gUtenti = GestoreUtenti.getInstance();
+				int idNegozio=gUtenti.getIdNegozioCommesso(idUtente);
+				
+				iterV = this.vendite.iterator();
+				primoCiclo=true;
+			    while (iterV.hasNext()) {
+			    	if (primoCiclo)
+			    	{
+			    		info += "VENDITE:\n";
+			    		primoCiclo=false;
+			    	}
+			    	Vendita vendita = iterV.next();
+			        if ( vendita.getIsPacco()==false && vendita.getIdNegozio() == idNegozio ) {
+			        	info += vendita.toString() + "\n";	        	
+			        }
+			    }
+			    
+			    iterP=this.pacchi.iterator();
+			    primoCiclo=true;
+			    while (iterP.hasNext()) {
+			    	if(primoCiclo)
+			    	{
+			    		info += "PACCHI:\n";
+			    		primoCiclo=false;
+			    	}
+			    	Pacco pacco = iterP.next();
+			        if ( pacco.getIdNegozio()==idNegozio ) {
+			        	info += pacco.toString() + "\n";	        	
+			        }
+			    }
+				break;
+			case corr:
+			    primoCiclo=true;
+			    iterP=this.pacchi.iterator();
+			    while (iterP.hasNext	()) {
+			    	if (primoCiclo)
+			    	{
+			    		info += "\nPACCHI:\n ";
+			    		primoCiclo=false;
+			    	}	    	
+			    	Pacco pacco = iterP.next();
+			        if ( pacco.getIdCorriere()==idUtente ) {
+			        	info += pacco.toString() + "\n";	        	
+			        }
+			    }	 
+			    break;
+				
+			default:
+				break;
+		}				
+		
+		return info;
+	}
+	
+	
+	public void setVendite(List<Vendita> vendite)
+	{
+		this.vendite=vendite;
+	}
+	
+	public void setPacchi(List<Pacco> pacchi)
+	{
+		this.pacchi=pacchi;
 	}
 	
 	/*

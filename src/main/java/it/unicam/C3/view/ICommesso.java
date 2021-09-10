@@ -174,8 +174,8 @@ public class ICommesso {
 		gUtenti.inviaNotifica(idCorriere, "[OUTPUT] E' stato assegnato il pacco con ID " + idPacco + " per la consegna" );
 	}
 	
-	//CASO D'USO AFFIDA PACCO
-	public void affidaPacco(Scanner reader)
+	//CASO D'USO AFFIDA PACCHI
+	public void affidaPacchi(Scanner reader)
 	{
 		System.out.println("[INFO] CASO D'USO AFFIDA_PACCO (Commesso " + this.getUserName() + " - negozio " + this.getIdNegozio() + ") ***");
 

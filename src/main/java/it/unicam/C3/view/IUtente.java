@@ -2,7 +2,6 @@ package it.unicam.C3.view;
 
 import java.util.Scanner;
 
-
 import it.unicam.C3.utente.GestoreUtenti;
 import it.unicam.C3.utente.Ruolo;
 import it.unicam.C3.utente.UtenteCorrente;
@@ -89,4 +88,7 @@ public class IUtente {
 		return gUtenti.login(userName, password);
 		
 	}
+	
+
+	
 }

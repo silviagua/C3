@@ -2,9 +2,11 @@ package it.unicam.C3;
 
 import java.util.Scanner;
 
+import it.unicam.C3.service.DBCommercio;
 import it.unicam.C3.service.DBLocker;
 import it.unicam.C3.service.DBNegozi;
 import it.unicam.C3.service.DBUtenti;
+import it.unicam.C3.commercio.GestoreCommercio;
 import it.unicam.C3.interactionManager.InteractionManagerUtente;
 import it.unicam.C3.negozio.*;
 import it.unicam.C3.trasporto.GestoreLocker;
@@ -22,6 +24,7 @@ public class SistemaC3 {
 	static GestoreUtenti gUtenti;
 	static GestoreNegozi gNegozi;
 	static GestoreLocker gLocker;
+	static GestoreCommercio gCommercio;
 
 	public static void main(String[] args)  {
 		Scanner reader = new Scanner(System.in);
@@ -37,6 +40,7 @@ public class SistemaC3 {
 		gNegozi=  GestoreNegozi.getInstance();
 		gUtenti = GestoreUtenti.getInstance();
 		gLocker = GestoreLocker.getInstance();
+		gCommercio = GestoreCommercio.getInstance();
 
 		citta = Config.getValore("citta");
 		descrizione = Config.getValore("descrizione");
@@ -53,6 +57,7 @@ public class SistemaC3 {
 			DBUtenti dbUtenti = DBUtenti.getInstance();
 			gUtenti.setClienti(dbUtenti.setClienti());
 			gUtenti.setCorrieri(dbUtenti.setCorrieri());
+			gUtenti.setCommessi(dbUtenti.setCommessi());
 			
 			DBNegozi dbNegozi = DBNegozi.getInstance();
 			gNegozi.setNegozi(dbNegozi.setNegozi());
@@ -60,9 +65,18 @@ public class SistemaC3 {
 			DBLocker dbLocker = DBLocker.getInstance();
 			gLocker.setLockers(dbLocker.setLocker());			
 		
+			DBCommercio dbCommercio = DBCommercio.getInstance();
+			gCommercio.setVendite(dbCommercio.setVendite());
+			gCommercio.setPacchi(dbCommercio.setPacchi());			
+			
 		}		
 		catch(Exception ex)
 		{
+			gUtenti.resetGestoreUtenti();
+			gNegozi.resetGestoreNegozi();
+			gLocker.resetGestoreLocker();
+			gCommercio.resetGestoreCommercio();
+			
 			System.out.println(ex.getLocalizedMessage());
 			System.out.println("[INFO] Carico i dati da CODICE");
 			//aggiunti tutti i componenti per gestire il sistemaC3 senza gestione del database

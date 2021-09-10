@@ -25,6 +25,7 @@ public class InteractionManagerCommesso {
 			System.out.println("[INPUT] Commesso - Scegli 2 per generare un pacco");
 			System.out.println("[INPUT] Commesso - Scegli 3 per scegliere un corriere");
 			System.out.println("[INPUT] Commesso - Scegli 4 per consegnare il pacco al corriere");
+			System.out.println("[INPUT] Commesso - Scegli 8 per visualizzare lo stato delle vendite/pacchi");
 			System.out.println("[INPUT] Commesso - Scegli 9 per logout");
 			
 			System.out.println("[INPUT] Scegli 0 per uscire");
@@ -44,9 +45,15 @@ public class InteractionManagerCommesso {
 				continue;
 			}
 			if(richiesta.equals("4")) {
-				commesso.affidaPacco(reader);
+				commesso.affidaPacchi(reader);
 				continue;
 			}
+			
+			if(richiesta.equals("8")) {
+				utenteC3.visualizzaVendite(reader);
+				continue;
+			}
+			
 			if(richiesta.equals("9")) {
 				utenteC3.logout(reader);
 				

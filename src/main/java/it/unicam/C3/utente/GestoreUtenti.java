@@ -41,6 +41,13 @@ public class GestoreUtenti {
         return instance;
     }
     
+    public void resetGestoreUtenti()
+    {
+        clienti = new LinkedList<>();
+        corrieri = new LinkedList<>();
+        commessi = new LinkedList<>();    	
+    }
+    
     public void setClienti(List<Cliente> clienti)
     {
     	this.clienti = clienti;
@@ -257,5 +264,22 @@ public class GestoreUtenti {
     {
     	utenteCorrente = null;
     }
+    
+    public int getIdNegozioCommesso(int idCommesso )
+    {
+    	Iterator<Commesso> iter = this.commessi.iterator();
+
+	    while (iter.hasNext	()) {
+	    	Commesso commesso  = iter.next();
+	    	if (commesso.getId() == idCommesso)
+	    	{
+	    		return commesso.getNegozio();
+	    	}
+
+	    }    	
+	    return 0;
+    	
+    }
+    
     
 }

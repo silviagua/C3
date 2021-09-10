@@ -21,6 +21,11 @@ public class GestoreNegozi {
         }
         return instance;
     }
+    
+    public void resetGestoreNegozi()
+    {
+    	negozi = new LinkedList<>();
+    }
 
     public void addNegozio(int id, String nome) {
         Negozio negozio = new Negozio(id, nome);
